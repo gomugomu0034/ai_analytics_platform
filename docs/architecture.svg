@@ -1,0 +1,174 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 770" width="1200" height="770" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3A4252"/>
+    </marker>
+  </defs>
+  <style>
+    .t  { font-size: 13px; font-weight: 600; fill: #1C2230; }
+    .s  { font-size: 11.5px; fill: #4A5263; }
+    .z  { font-size: 12px; font-weight: 700; fill: #4A5263; letter-spacing: .02em; }
+    .ln { stroke: #3A4252; stroke-width: 1.6; fill: none; }
+    .lb { font-size: 11px; fill: #3A4252; }
+  </style>
+
+  <rect width="1200" height="770" fill="#FFFFFF"/>
+
+  <text x="20" y="36" font-size="20" font-weight="700" fill="#1C2230">AI Analytics Platform — base architecture</text>
+  <text x="20" y="58" font-size="13" fill="#4A5263">The agent never touches data, context stores or model providers directly. Every call passes the guardrail gateway.</text>
+
+  <!-- ============ Consumer zone ============ -->
+  <rect x="20" y="80" width="290" height="640" rx="10" fill="#F5F6F8" stroke="#B8BFCC" stroke-dasharray="5 4"/>
+  <text x="36" y="102" class="z">CONSUMER ZONE</text>
+
+  <rect x="40" y="120" width="250" height="90" rx="8" fill="#FFFFFF" stroke="#8A94A6"/>
+  <text x="165" y="150" text-anchor="middle" class="t">Clients</text>
+  <text x="165" y="171" text-anchor="middle" class="s">Web app · notebooks · API callers</text>
+  <text x="165" y="190" text-anchor="middle" class="s">(admin console in a later phase)</text>
+
+  <rect x="36" y="226" width="258" height="478" rx="8" fill="#EFEFFD" stroke="#6E6AE8" stroke-dasharray="5 4"/>
+  <text x="50" y="246" class="lb" font-weight="600" fill="#4B47B8">Agent zone · internal network, no egress</text>
+
+  <rect x="52" y="258" width="226" height="282" rx="8" fill="#FFFFFF" stroke="#5B57D1" stroke-width="1.5"/>
+  <text x="165" y="284" text-anchor="middle" class="t">AI Agent service</text>
+  <text x="165" y="302" text-anchor="middle" class="s">LangGraph · stateless workers</text>
+  <text x="68" y="334" class="s">• interprets the question</text>
+  <text x="68" y="354" class="s">• pulls semantic context</text>
+  <text x="68" y="374" class="s">• drafts SQL against the MDL</text>
+  <text x="68" y="394" class="s">• asks for a plan, then a run</text>
+  <text x="68" y="414" class="s">• explains the result</text>
+  <line x1="68" y1="434" x2="262" y2="434" stroke="#D5D8E0"/>
+  <text x="68" y="456" class="s" font-weight="600">Holds</text>
+  <text x="68" y="474" class="s">a delegated gateway token only</text>
+  <text x="68" y="500" class="s" font-weight="600">Never holds</text>
+  <text x="68" y="518" class="s">Trino, S3, Wren or LLM credentials</text>
+
+  <rect x="52" y="556" width="226" height="132" rx="8" fill="#FFF4F4" stroke="#C9504B"/>
+  <text x="68" y="580" class="t" fill="#A23B36">✕  No direct route</text>
+  <text x="68" y="602" class="s">Agent → Trino, S3, Wren or an</text>
+  <text x="68" y="620" class="s">LLM provider is blocked at the</text>
+  <text x="68" y="638" class="s">network layer. Its only peer is</text>
+  <text x="68" y="656" class="s">the gateway, which applies the</text>
+  <text x="68" y="674" class="s">same chain to every call.</text>
+
+  <!-- ============ Guardrail gateway ============ -->
+  <rect x="340" y="80" width="440" height="640" rx="12" fill="#FFF7EC" stroke="#D9822B" stroke-width="2"/>
+  <text x="560" y="106" text-anchor="middle" font-size="16" font-weight="700" fill="#8A4B0F">Guardrail Gateway</text>
+  <text x="560" y="125" text-anchor="middle" class="s">single entry point · hosts the Trino connector and the LLM proxy</text>
+
+  <text x="358" y="150" class="lb" font-weight="600">REQUEST CHAIN — runs on every call</text>
+  <rect x="358" y="158" width="92" height="56" rx="6" fill="#FFFFFF" stroke="#D9822B"/>
+  <text x="404" y="181" text-anchor="middle" class="t" font-size="12">AuthN</text>
+  <text x="404" y="199" text-anchor="middle" class="s" font-size="10.5">user + agent</text>
+  <rect x="462" y="158" width="92" height="56" rx="6" fill="#FFFFFF" stroke="#D9822B"/>
+  <text x="508" y="181" text-anchor="middle" class="t" font-size="12">Rate limit</text>
+  <text x="508" y="199" text-anchor="middle" class="s" font-size="10.5">quotas · budgets</text>
+  <rect x="566" y="158" width="92" height="56" rx="6" fill="#FFFFFF" stroke="#D9822B"/>
+  <text x="612" y="181" text-anchor="middle" class="t" font-size="12">Access check</text>
+  <text x="612" y="199" text-anchor="middle" class="s" font-size="10.5">table · col · row</text>
+  <rect x="670" y="158" width="92" height="56" rx="6" fill="#FFFFFF" stroke="#D9822B"/>
+  <text x="716" y="181" text-anchor="middle" class="t" font-size="12">Audit</text>
+  <text x="716" y="199" text-anchor="middle" class="s" font-size="10.5">trace · log</text>
+  <path d="M450,186 H460" class="ln" marker-end="url(#arr)"/>
+  <path d="M554,186 H564" class="ln" marker-end="url(#arr)"/>
+  <path d="M658,186 H668" class="ln" marker-end="url(#arr)"/>
+
+  <text x="358" y="236" class="lb" font-weight="600">ROUTES</text>
+  <rect x="360" y="244" width="400" height="52" rx="6" fill="#FFFFFF" stroke="#B9875A"/>
+  <text x="376" y="265" class="t">Agent ingress  <tspan class="s" font-weight="400">/v1/ask</tspan></text>
+  <text x="376" y="284" class="s">forwards the user's question to the agent with a delegated token</text>
+
+  <rect x="360" y="308" width="400" height="66" rx="6" fill="#FFFFFF" stroke="#B9875A"/>
+  <text x="376" y="329" class="t">Context API  <tspan class="s" font-weight="400">/v1/context/*</tspan></text>
+  <text x="376" y="348" class="s">tables, columns, metrics, rules, golden queries from Wren —</text>
+  <text x="376" y="365" class="s">filtered to what this user is entitled to see</text>
+
+  <rect x="360" y="386" width="400" height="90" rx="6" fill="#FFFFFF" stroke="#B9875A"/>
+  <text x="376" y="407" class="t">Query API + Trino connector  <tspan class="s" font-weight="400">/v1/sql/plan · /v1/query</tspan></text>
+  <text x="376" y="426" class="s">MDL SQL → Trino SQL via Wren dry-plan · parse with sqlglot</text>
+  <text x="376" y="444" class="s">SELECT only · one statement · forced LIMIT · EXPLAIN cost cap</text>
+  <text x="376" y="462" class="s">row filters + column masks · runs as the end user · timeout</text>
+
+  <rect x="360" y="488" width="400" height="70" rx="6" fill="#FFFFFF" stroke="#B9875A"/>
+  <text x="376" y="509" class="t">LLM proxy  <tspan class="s" font-weight="400">/v1/llm/messages · OpenAI-compatible shim</tspan></text>
+  <text x="376" y="528" class="s">provider keys live here only · model allowlist · token budgets</text>
+  <text x="376" y="546" class="s">PII redaction and result-egress rules before any prompt leaves</text>
+
+  <text x="358" y="594" class="lb" font-weight="600">GATEWAY STATE</text>
+  <rect x="360" y="602" width="194" height="96" rx="6" fill="#FFFFFF" stroke="#8A94A6"/>
+  <text x="457" y="628" text-anchor="middle" class="t">Postgres</text>
+  <text x="457" y="648" text-anchor="middle" class="s">principals · policies</text>
+  <text x="457" y="666" text-anchor="middle" class="s">audit log · sessions</text>
+  <text x="457" y="684" text-anchor="middle" class="s">query history</text>
+  <rect x="566" y="602" width="194" height="96" rx="6" fill="#FFFFFF" stroke="#8A94A6"/>
+  <text x="663" y="628" text-anchor="middle" class="t">Redis</text>
+  <text x="663" y="648" text-anchor="middle" class="s">rate-limit counters</text>
+  <text x="663" y="666" text-anchor="middle" class="s">token budgets</text>
+  <text x="663" y="684" text-anchor="middle" class="s">result cache</text>
+
+  <!-- ============ Semantic plane ============ -->
+  <rect x="810" y="80" width="370" height="190" rx="10" fill="#EEF7F1" stroke="#2F8F5B"/>
+  <text x="826" y="102" class="z" fill="#24714A">SEMANTIC PLANE</text>
+  <rect x="830" y="114" width="330" height="70" rx="6" fill="#FFFFFF" stroke="#2F8F5B"/>
+  <text x="995" y="138" text-anchor="middle" class="t">Wren core</text>
+  <text x="995" y="157" text-anchor="middle" class="s">MDL · relationships · metrics · SQL dry-plan</text>
+  <text x="995" y="174" text-anchor="middle" class="s">plan-only: holds no data credentials</text>
+  <rect x="830" y="200" width="330" height="56" rx="6" fill="#FFFFFF" stroke="#2F8F5B"/>
+  <text x="995" y="223" text-anchor="middle" class="t">Semantic definitions (Git)</text>
+  <text x="995" y="242" text-anchor="middle" class="s">one YAML per table → compiled MDL + context index</text>
+  <path d="M995,200 V186" class="ln" marker-end="url(#arr)"/>
+
+  <!-- ============ Data plane ============ -->
+  <rect x="810" y="290" width="370" height="290" rx="10" fill="#EBF2FB" stroke="#2D6CB5"/>
+  <text x="826" y="312" class="z" fill="#1F5594">DATA PLANE · RESTRICTED NETWORK</text>
+  <rect x="830" y="326" width="330" height="76" rx="6" fill="#FFFFFF" stroke="#2D6CB5"/>
+  <text x="995" y="350" text-anchor="middle" class="t">Trino</text>
+  <text x="995" y="369" text-anchor="middle" class="s">Hive connector · resource groups</text>
+  <text x="995" y="387" text-anchor="middle" class="s">session user = end user · access-control backstop</text>
+  <rect x="830" y="432" width="155" height="132" rx="6" fill="#FFFFFF" stroke="#2D6CB5"/>
+  <text x="907" y="458" text-anchor="middle" class="t">Metastore</text>
+  <text x="907" y="480" text-anchor="middle" class="s">Hive Metastore</text>
+  <text x="907" y="498" text-anchor="middle" class="s">(Postgres-backed)</text>
+  <text x="907" y="524" text-anchor="middle" class="s">cloud: Glue or HMS</text>
+  <rect x="1005" y="432" width="155" height="132" rx="6" fill="#FFFFFF" stroke="#2D6CB5"/>
+  <text x="1082" y="458" text-anchor="middle" class="t">S3 warehouse</text>
+  <text x="1082" y="480" text-anchor="middle" class="s">Parquet files</text>
+  <text x="1082" y="498" text-anchor="middle" class="s">one prefix per table</text>
+  <text x="1082" y="524" text-anchor="middle" class="s">local: MinIO</text>
+  <path d="M907,402 V430" class="ln" marker-end="url(#arr)"/>
+  <path d="M1082,402 V430" class="ln" marker-end="url(#arr)"/>
+
+  <!-- ============ Model providers ============ -->
+  <rect x="810" y="600" width="370" height="120" rx="10" fill="#F8EFF8" stroke="#9B4F9B"/>
+  <text x="826" y="622" class="z" fill="#7A3A7A">MODEL PROVIDERS</text>
+  <rect x="830" y="634" width="330" height="70" rx="6" fill="#FFFFFF" stroke="#9B4F9B"/>
+  <text x="995" y="658" text-anchor="middle" class="t">LLM API</text>
+  <text x="995" y="677" text-anchor="middle" class="s">Claude by default · local model optional</text>
+  <text x="995" y="694" text-anchor="middle" class="s">reachable from the gateway only</text>
+
+  <!-- ============ Arrows ============ -->
+  <!-- clients <-> gateway chain -->
+  <path d="M292,186 H356" class="ln" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  <text x="300" y="178" class="lb">HTTPS</text>
+
+  <!-- gateway -> agent (ask) -->
+  <path d="M358,270 H280" class="ln" marker-end="url(#arr)"/>
+  <text x="296" y="262" class="lb">ask</text>
+  <!-- agent -> routes (tool calls) -->
+  <path d="M280,341 H358" class="ln" marker-end="url(#arr)"/>
+  <path d="M280,431 H358" class="ln" marker-end="url(#arr)"/>
+  <path d="M280,523 H358" class="ln" marker-end="url(#arr)"/>
+  <text x="290" y="333" class="lb">context</text>
+  <text x="290" y="423" class="lb">plan/run</text>
+  <text x="290" y="515" class="lb">LLM</text>
+
+  <!-- routes -> backends -->
+  <path d="M760,341 H792 V149 H828" class="ln" marker-end="url(#arr)"/>
+  <path d="M760,410 H800 V170 H828" class="ln" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <path d="M760,452 H792 V364 H828" class="ln" marker-end="url(#arr)"/>
+  <path d="M760,523 H792 V669 H828" class="ln" marker-end="url(#arr)"/>
+
+  <!-- footer -->
+  <text x="20" y="742" class="s">Arrows are the only allowed calls; the dashed one is the Query API asking Wren for a dry-plan.</text>
+  <text x="20" y="760" class="s">Phase 1 builds every box with pass-through policies so the topology is right from day one; Phase 2 turns enforcement on.</text>
+</svg>
