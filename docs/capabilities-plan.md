@@ -22,7 +22,7 @@ Phase 1 already routes everything through the gateway with pass-through policies
 |---|---|
 | Repository layout, Python tooling (uv, ruff, pytest), pre-commit, CI running lint and tests | A fresh clone passes CI |
 | Local stack skeleton in `deploy/local/docker-compose.yml`, with pinned image versions and separate `agent` (internal), `gateway` and `data` networks | `make up` / `make down` work on a laptop with 16 GB RAM |
-| Synthetic sample dataset: about 8 tables in a cards and lending domain (customers, accounts, cards, transactions, merchants, repayments, collections, branches), with real PII-like columns so masking can be tested | Generator writes Parquet to MinIO deterministically from a seed |
+| Synthetic credit card dataset: daily aggregate tables (no customer-level rows, no PII) across nine business domains, 36 months of history, at least 10,000 rows per table. Kept local only: the generator, MinIO setup, schemas and data live in the git-ignored `local/` folder | Generator writes Parquet to MinIO deterministically from a seed; a validator checks schemas, row counts, PII absence and cross-table reconciliation |
 | Wren spike | Written answers to the five questions in architecture.md §6, plus a go/adjust decision |
 | Eval seed | 30 questions with verified SQL and expected result sets over the sample data |
 

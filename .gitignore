@@ -2,3 +2,7 @@
 .env
 __pycache__/
 .venv/
+
+# Local-only: MinIO setup, credentials, synthetic data generator, schemas and data.
+# Never commit anything under local/.
+local/
